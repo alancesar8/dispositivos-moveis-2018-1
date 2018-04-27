@@ -3,6 +3,7 @@ package br.grupointegrado.tads.clima
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,9 +14,18 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    var previsaoAdapter : PrevisaoAdapter ?= null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        previsaoAdapter = PrevisaoAdapter(null)
+        val layoutManager = LinearLayoutManager(this)
+        rv_clima.layoutManager = layoutManager
+        rv_clima.adapter = previsaoAdapter
+
         carregarDadosClima()
     }
 
@@ -49,12 +59,11 @@ class MainActivity : AppCompatActivity() {
 
         override fun onPostExecute(result: String?) {
             if (result!=null){
-                exibirResultado()
                 val clima = JsonUtils.getSimplesStringsDeClimaDoJson(this@MainActivity,result)
-                for (i in 0 until clima!!.size){
-                    tv_dados_clima.append(clima.get(i))
-                    tv_dados_clima.append("\n\n")
-                }
+
+                previsaoAdapter?.setDadosClima(clima)
+
+                exibirResultado()
             }else{
                 exibirMensagemErro()
             }
@@ -71,20 +80,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun exibirMensagemErro(){
-        tv_dados_clima.visibility = View.INVISIBLE
+        rv_clima.visibility = View.INVISIBLE
         tv_mensagem_erro.visibility = View.VISIBLE
         pg_aguarde.visibility = View.INVISIBLE
     }
     fun exibirResultado(){
-        tv_dados_clima.visibility = View.VISIBLE
+        rv_clima.visibility = View.VISIBLE
         tv_mensagem_erro.visibility = View.INVISIBLE
         pg_aguarde.visibility = View.INVISIBLE
     }
     fun exibirProgressbar(){
-        tv_dados_clima.visibility = View.INVISIBLE
+        rv_clima.visibility = View.INVISIBLE
         tv_mensagem_erro.visibility = View.INVISIBLE
         pg_aguarde.visibility = View.VISIBLE
     }
-
-
 }

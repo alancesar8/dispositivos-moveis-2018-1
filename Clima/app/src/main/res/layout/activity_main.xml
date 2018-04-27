@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.grupointegrado.tads.clima.MainActivity">
+    tools:context="br.grupointegrado.tads.clima.MainActivity"    >
+
 
     <TextView
         android:id="@+id/tv_mensagem_erro"
@@ -27,7 +28,7 @@
     <ScrollView
         android:id="@+id/scViewl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/tv_dados_clima"
@@ -39,5 +40,11 @@
             android:textSize="20sp" />
 
     </ScrollView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_clima"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>
